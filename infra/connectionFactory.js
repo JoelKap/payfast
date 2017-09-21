@@ -1,8 +1,11 @@
-var firebase = require('firebase');
-var config = require('./DBConfig');
+var firebase = require('firebase-admin');
+var serviceAccount = require("./firebase-key.json");
 
 function createDBConnection(){
-    firebase.initializeApp(config);
+    return firebase.initializeApp({
+        credential: firebase.credential.cert(serviceAccount),
+        databaseURL: "https://payfast-api.firebaseio.com"
+    }).database();
 }
 
 module.exports = function(){
