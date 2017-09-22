@@ -7,6 +7,11 @@ module.exports = function(app){
         var payment = req.body;
         payment.status = "created";
         payment.date = new Date;
+
+        var conn = app.models.db.connectionFactory();
+        var paymentDAO = new app.models.db.PaymentDAO(conn);
+        paymentDAO.insert(payment);
+
         res.json(payment);
     });
 }

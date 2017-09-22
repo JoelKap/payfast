@@ -4,12 +4,13 @@ var bodyParser = require('body-parser');
 
 module.exports = function(){
     var app = express();
-    
+
     app.use(bodyParser.urlencoded({extended:true}));
     app.use(bodyParser.json());
 
-    consign()
-    .include('controllers')
+    consign({cwd:'app'})
+    .include('routes')
+    .then('models')
     .into(app);
 
 
