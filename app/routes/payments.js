@@ -3,7 +3,15 @@ module.exports = function(app){
         res.send('payment');
     });
 
-    app.post('/payments/payment', function(req, res) {
+    app.post('/payments/payment', function(req, res, next) {
+        var validator = app.utils.paymentValidator;
+
+        var errors = validator.check(req);
+        if(errors){
+            res.status(400).json(errors);
+            return;            
+        }
+
         var payment = req.body;
         payment.status = "created";
         payment.date = new Date;
@@ -12,6 +20,6 @@ module.exports = function(app){
         var paymentDAO = new app.models.db.PaymentDAO(conn);
         paymentDAO.insert(payment);
 
-        res.json(payment);
+        res.status(201).json(payment);
     });
 }
