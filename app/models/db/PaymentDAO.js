@@ -15,7 +15,8 @@ PaymentDAO.prototype.list = function (callback){
 
 PaymentDAO.prototype.searchByID = function(id, callback){
     this._collection
-    .child(id)
+    .orderByKey()
+    .equalTo(id)
     .once('value')
     .then(callback);
 }

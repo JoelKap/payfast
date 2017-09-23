@@ -3,7 +3,7 @@ module.exports = function(app){
         res.send('payment');
     });
 
-    app.post('/payments/payment', function(req, res, next) {
+    app.post('/payments/payment', function(req, res) {
         var validator = app.utils.paymentValidator;
 
         var errors = validator.check(req);
@@ -18,8 +18,26 @@ module.exports = function(app){
 
         var conn = app.models.db.connectionFactory();
         var paymentDAO = new app.models.db.PaymentDAO(conn);
-        paymentDAO.insert(payment);
+        var paymentID = paymentDAO.insert(payment);
 
+        res.location('payments/payment/' + paymentID);
         res.status(201).json(payment);
+    });
+
+    app.get('/payments/payment/:paymentID', function(req, res){
+        var paymentID = req.params.paymentID;
+        var conn = app.models.db.connectionFactory();
+        var paymentDAO = new app.models.db.PaymentDAO(conn);
+
+        paymentDAO.searchByID(paymentID, function(payment){
+            if(payment.exists()){
+                res.json(payment);
+            }else{
+                res.status(404).json({
+                    id: 'not found'
+                })
+            }
+        });
+
     });
 }
