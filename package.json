@@ -18,6 +18,8 @@
     "consign": "^0.1.6",
     "express": "^4.15.4",
     "express-validator": "^4.2.0",
-    "firebase-admin": "^5.2.1"
+    "firebase-admin": "^5.2.1",
+    "restify": "^6.3.4",
+    "soap": "^0.23.0"
   }
 }

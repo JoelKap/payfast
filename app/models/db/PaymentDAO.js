@@ -7,10 +7,17 @@ PaymentDAO.prototype.insert = function(payment){
     return ref.key;
 }
 
-PaymentDAO.prototype.list = function (callback){
+PaymentDAO.prototype.list = function(callback){
     this._collection
     .once('value')
     .then(callback);
+}
+
+PaymentDAO.prototype.update = function(id, data, callback){
+    this._collection
+    .child(id)
+    .update(data)
+    .then(callback)
 }
 
 PaymentDAO.prototype.searchByID = function(id, callback){

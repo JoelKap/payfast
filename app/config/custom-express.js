@@ -14,6 +14,7 @@ module.exports = function(){
     .include('routes')
     .then('models')
     .then('utils')
+    .then('services')
     .into(app);
 
 
